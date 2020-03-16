@@ -1,0 +1,49 @@
+#include <cstdio>
+#include <queue>
+#include <cstring>
+using namespace std;
+queue<int> Q;
+
+int arr[1001][1001];
+int visit[1001];
+int N,M,V;
+int y,x;
+
+void BFS(int V){
+    Q.push(V);
+    visit[V]=1;
+    int cur;
+    while(!Q.empty()){
+        cur =Q.front(); 
+        Q.pop();
+        printf("%d ",cur);
+        for(int i=1 ; i<=N ; i++){
+            if(arr[cur][i]!=1 || visit[i]==1)continue;
+            Q.push(i);
+            visit[i]=1;
+        }
+    }
+}
+void DFS(int V){
+    printf("%d ",V);
+    for(int i=1 ; i<=N ; i++){
+        if(arr[V][i]==0 || visit[i]==1)continue;
+        visit[i]=1;
+        DFS(i);
+    }
+}
+
+int main(){
+    
+   scanf("%d %d %d",&N,&M,&V);
+   for(int i=1 ; i<=M ; i++){
+       scanf("%d %d",&y,&x);
+       arr[y][x]=1;
+       arr[x][y]=1;
+       }
+    visit[V]=1;
+    DFS(V); printf("\n");
+    memset(visit,0,sizeof(visit));
+    BFS(V);
+    return 0;
+}
