@@ -1,0 +1,24 @@
+#include <cstdio>
+#include <vector>
+#include <algorithm>
+#include <cstring>
+#include <functional>
+using namespace std;
+vector<int>V;
+
+char str[11];
+int main() {
+	scanf("%s", str);
+	int num = strlen(str);
+	for (int i = 0; i < num; i++) {
+		int tmp = str[i] - '0';
+		V.push_back(tmp);
+	}
+	sort(V.begin(), V.end(),greater<int>());
+
+	for (int i = 0; i < V.size(); i++) {
+		printf("%d", V[i]);
+	}
+	
+	return 0;
+}
