@@ -1,0 +1,71 @@
+#include <cstdio>
+using namespace std;
+
+int N, M;
+int sx, sy, sdir;
+int map[51][51];
+int visit[51][51];
+
+int dx[4] = { 0,1,0,-1 };
+int dy[4] = { -1,0,1,0 };
+
+typedef struct {
+	int x, y, dir;
+}node;
+
+void DFS(int sx, int sy, int sdir) {
+	int x = sx; 
+	int y = sy;	
+	int dir = sdir;
+
+	//map을 벗어나거나 기둥이면 청소불가
+	if (x<1 || x>M || y<1 || y>N || map[y][x]==1) return;
+	//현재칸 청소
+	visit[y][x] = 1;
+
+	int Ldir,nx,ny;
+	//4방향 검사
+	for (int i = 1; i <= 4; i++) {
+		Ldir = (dir + 3) % 4;
+		nx = x + dx[Ldir];
+		ny = y + dy[Ldir];
+
+		//현재의 왼쪽칸이 갈수있는0 이고, 청소를 하지 않은경우 왼쪽으로 방향전환 후 이동
+		if (visit[ny][nx] == 0 && map[ny][nx] == 0) {
+			DFS(nx, ny, Ldir);
+			return;
+		}
+		//방향전환
+		else dir = Ldir;
+	}
+	//4방향모두 청소(처음과 같은방향을 바라보고있는상태)
+	//후진
+	if (dir == sdir) {
+		nx = x - dx[dir];
+		ny = y - dy[dir];
+		DFS(nx, ny, dir);
+	}
+
+}
+
+int result;
+
+int main() {
+	scanf("%d %d", &N, &M);
+	scanf("%d %d %d", &sy, &sx, &sdir);
+	sy =sy+ 1;
+	sx =sx+ 1;	
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= M; j++) {
+			scanf("%d", &map[i][j]);
+		}
+	}
+	DFS(sx, sy, sdir);
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= M; j++) {
+			if (visit[i][j] == 1) result++;
+		}
+	}
+	printf("%d", result);
+	return 0;
+}
