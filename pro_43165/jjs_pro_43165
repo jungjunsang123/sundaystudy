@@ -1,0 +1,53 @@
+#include <cstdio>
+#include <vector>
+using namespace std;
+
+vector<int> numbers;
+int solution[21];
+int N;
+int target = 3;
+int result, cnt;
+
+void find_target() {
+	if (solution[0] == 0) {
+		result = numbers[0] * -1;
+	}
+	else result = numbers[0];
+	
+	for (int i = 1; i < N; i++) {
+		if (solution[i] == 1) {
+			result += numbers[i];
+		}
+		else {
+			result -= numbers[i];
+		}
+	}
+	if (result == target) cnt++;
+}
+
+void DFS(int depth) {
+	if (depth > N - 1) {
+		find_target();
+		
+		for (int i = 0; i < depth; i++) {
+			printf("%d ", solution[i]);
+		}
+		printf("\n");
+		
+		return;
+	}
+	for (int i = 0; i < 2; i++) {
+		solution[depth] = i;
+		DFS(depth + 1);
+	}
+}
+int main() {
+	for (int i = 1; i <= 5; i++) {
+		numbers.push_back(1);
+	}
+	N = numbers.size();
+	DFS(0);
+	printf("%d", cnt);
+	
+	return 0;
+}
