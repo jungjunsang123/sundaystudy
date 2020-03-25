@@ -34,6 +34,7 @@ int main(void)
 //
     int max_near = -1;
     // exception case (0, N-1)
+    // 양 끝에 사람이 없는 경우에 대한 case
     if (space[N-1] == 0)
         max_near = marking[N-1];
 
