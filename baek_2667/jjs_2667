@@ -1,0 +1,70 @@
+#include <cstdio>
+#include <queue>
+#include <vector>
+#include <algorithm>
+using namespace std;
+int N;
+int arr[26][26];
+int visit[26][26];
+int danG;
+
+
+int dx[4] = { 0,0,1,-1 };
+int dy[4] = { 1,-1,0,0 };
+
+typedef struct {
+	int x, y, cnt;
+}node;
+queue<node> Q;
+vector<int>V;
+
+void BFS(int x, int y) {
+	danG++;
+	node cur, nex;
+	nex.x = x;
+	nex.y = y;
+	//nex.cnt = 1;
+	visit[y][x] = 1;
+	Q.push(nex);
+	int dang_cnt=1;
+
+	while (!Q.empty()) {
+		cur = Q.front(); Q.pop();
+		//dang_cnt = cur.cnt;
+		for (int i = 0; i < 4; i++) {
+			int fx, fy;
+			fx = nex.x = cur.x + dx[i];
+			fy = nex.y = cur.y + dy[i];
+			if (fx <1 || fx >N || fy <1 || fy > N)continue;
+			if (visit[fy][fx] == 1 || arr[fy][fx]==0)continue;
+			visit[fy][fx] = 1;
+			dang_cnt++;
+			//nex.cnt = cur.cnt + 1;
+			Q.push(nex);
+		}
+	}
+	V.push_back(dang_cnt);
+}
+
+int main() {
+	scanf("%d", &N);
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= N; j++) {
+			scanf("%1d", &arr[i][j]);
+		}
+	}
+	for (int i = 1; i <= N; i++) {
+		for (int j = 1; j <= N; j++) {
+			if (arr[i][j] == 1 && visit[i][j] == 0) {
+				BFS(j,i);
+			}
+		}
+	}
+	printf("%d\n", danG);
+	//printf("%d", V.size());
+	sort(V.begin(), V.end());
+	for (int i = 0; i < V.size(); i++) {
+		printf("%d\n", V[i]);
+	}
+	return 0;
+}
