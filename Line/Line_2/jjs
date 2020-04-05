@@ -1,0 +1,42 @@
+#include <cstdio>
+#include <vector>
+#include <algorithm>
+using namespace std;
+int visit[4];
+int arr[4];
+int solution[10];
+int K,cnt;
+void DFS(int depth) {
+	if (depth > 2) {
+		cnt++;
+		if (cnt == K) {
+			for (int i = 0; i < depth; i++) {
+				printf("%d", solution[i]);
+			}
+		}
+		/*
+		for (int i = 0; i < depth; i++) {
+			printf("%d ", solution[i]);
+		}
+		printf("\n");
+		*/
+		return;
+	}
+	for (int i = 0; i < 3; i++) {
+		if (visit[i] == 0) {
+			solution[depth] = arr[i];
+			visit[i] = 1;
+			DFS(depth + 1);
+			visit[i] = 0;
+		}
+	}
+}
+int main() {
+	for (int i = 0; i < 3; i++) {
+		scanf("%d", &arr[i]);
+	}
+	scanf("%d", &K);
+	sort(arr, arr + 3);
+	DFS(0);
+	return 0;
+}

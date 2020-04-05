@@ -1,0 +1,44 @@
+#include <cstdio>
+typedef struct {
+	int s, e;
+}node;
+
+node arr[1005];
+
+int N;
+int toilet[1005][1005];
+int start, end;
+int cnt;
+bool flag;
+void find() {
+	for (int i = 1; i <= N; i++) {
+		start = arr[i].s;
+		end = arr[i].e;
+
+		for (int j = 1; j <= 1000; j++) { //화장실 번호
+			flag = true;
+			for (int k = start; k < end; k++) {
+				if (toilet[j][k] == 1) flag=false;				
+			}
+			if (flag == true) {
+				for (int k = start; k < end; k++) {
+				toilet[j][k] = 1;
+				cnt = cnt > j ? cnt : j;				
+				}
+				break;
+			}
+		}
+	}
+}
+
+
+int main() {
+	scanf("%d", &N);
+	for (int i = 1; i <= N; i++) {
+		scanf("%d %d", &arr[i].s, &arr[i].e);
+	}
+	find();
+	printf("%d", cnt);
+	
+	return 0;
+}

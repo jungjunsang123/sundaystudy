@@ -1,0 +1,48 @@
+#include <cstdio>
+#include <queue>
+using namespace std;
+queue<int>Q[11];
+int arr[11];
+int M, C;
+int minindex;
+
+void commpare() {
+	int mmin = 0xfffffff;
+	for (int i = 1; i <= C; i++) {
+		if (Q[i].size() < mmin) {
+			mmin = Q[i].size();
+ 			minindex = i;
+		}
+	}
+}
+int main() {
+	scanf("%d %d", &M, &C);
+	for (int i = 1; i <= M; i++) {
+		scanf("%d", &arr[i]);
+	}
+	for (int i = 1; i <= C; i++) {
+		for (int j = 1; j <= arr[i]; j++) {
+			Q[i].push(1);
+		}		
+	}
+	commpare();
+	for (int i = C + 1; i <= M; i++) {
+		for (int j = 1; j <= arr[i]; j++) {
+			Q[minindex].push(1);
+		}
+		if (i == M)continue;
+		commpare();
+	}
+
+	int maxindex=0;
+	int mmaxq=0;
+	for (int i = 1; i <= C; i++) {
+		if (mmaxq < Q[i].size()) {
+			mmaxq = Q[i].size();
+			maxindex = i;
+		}
+	}
+	printf("%d", mmaxq);
+
+	return 0;
+}
